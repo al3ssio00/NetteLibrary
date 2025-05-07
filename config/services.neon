@@ -1,0 +1,16 @@
+services:
+	- App\Core\RouterFactory::createRouter
+	- App\Models\BibliotecaModel(@database.default.context)
+	- App\Models\LoginModel(@database.default.context)
+	- App\Models\AnnulloModel(@database.default.context)
+	- App\Presenters\LoginPresenter
+	- Nette\Security\MyAuthenticator
+	- Nette\Security\MyAuthorizator
+
+search:
+	-	in: %appDir%
+		classes:
+			- *Facade
+			- *Factory
+			- *Repository
+			- *Service

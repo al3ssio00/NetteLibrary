@@ -1,0 +1,27 @@
+parameters:
+
+
+constants:
+	APPURL: 'https://nette-blog.local/'
+	APPNAME: 'nette-blog'
+	USERTABLE: ''
+
+
+
+database:
+	default:
+		dsn: 'mysql:host=127.0.0.1;dbname=biblioteca'
+		user: 'root'
+		password: 'Password@'
+
+latte:
+	strictTypes: yes
+	strictParsing: yes
+	extensions:
+		- App\Presenters\Accessory\LatteExtension
+
+
+di:
+	export:
+		parameters: no
+		tags: no

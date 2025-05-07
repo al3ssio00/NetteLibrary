@@ -1,0 +1,77 @@
+<?php
+
+declare(strict_types=1);
+
+use Latte\Runtime as LR;
+
+/** source: /home/alessio/sviluppo/nette-blog/app/Presenters/Default/templates/@frontend.latte */
+final class Template_1e752954dc extends Latte\Runtime\Template
+{
+	public const Source = '/home/alessio/sviluppo/nette-blog/app/Presenters/Default/templates/@frontend.latte';
+
+	public const Blocks = [
+		['scripts' => 'blockScripts'],
+	];
+
+
+	public function main(array $ʟ_args): void
+	{
+		extract($ʟ_args);
+		unset($ʟ_args);
+
+		if ($this->global->snippetDriver?->renderSnippets($this->blocks[self::LayerSnippet], $this->params)) {
+			return;
+		}
+
+		echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign-Up</title>
+  <link rel="stylesheet" href="stile.css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-md-5 mt-md-4 pb-5">
+                            <h2 class="fw-bold mb-2 text-uppercase">';
+		echo LR\Filters::escapeHtmlText($title) /* line 20 */;
+		echo '</h2>
+
+';
+		$this->renderBlock('content', [], 'html') /* line 22 */;
+		echo '
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+';
+		$this->renderBlock('scripts', get_defined_vars()) /* line 31 */;
+		echo '</body>
+</html>';
+	}
+
+
+	/** {block scripts} on line 31 */
+	public function blockScripts(array $ʟ_args): void
+	{
+		echo '<script>
+    setTimeout(function () {
+      let alertBox = document.getElementById("alert");
+      if (alertBox) alertBox.style.display = "none";
+    }, 2000);
+</script>
+';
+	}
+}

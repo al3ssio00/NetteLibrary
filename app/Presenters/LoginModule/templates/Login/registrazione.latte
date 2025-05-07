@@ -1,0 +1,39 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+
+    
+    <p class="text-white-50 mb-5">Please enter your username and password!</p>
+
+    <form n:name="loginc" method="POST" action="">
+        <div data-mdb-input-init class="form-outline form-white mb-4">
+            <input n:name="utente" type="text" id="utente" class="form-control form-control-lg" />
+            <label class="form-label" for="utente">Username</label>
+        </div>
+        
+          <div data-mdb-input-init class="form-outline form-white mb-5">
+            <input n:name="password" type="password" id="password" class="form-control form-control-lg" />
+            <label class="form-label" for="password">Password</label>
+          </div>
+                
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                
+                {*
+                {if ($Mlogin === FALSE):}
+                  <div id="alert" class="alert alert-danger" role="alert">
+                    ❌ Errore durante il login. Riprova!
+                    <script>
+                      setTimeout(function() {
+                        window.location.href = 'login.php';
+                      }, 2000);
+                    </script>
+                  </div>
+                {/if}
+                *}
+              </form>
+
+              <div>
+                <p class="mb-0">Already have an account?</p>
+                <a n:href="login" class="text-white-50 fw-bold">Login</a>
+              </div>
+{/block}
