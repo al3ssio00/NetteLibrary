@@ -1,5 +1,5 @@
 # library
-CRUD project of a management system of a library 
+A CRUD-based library management system built with the Nette framework.
 
 # 📚 Library Database Project
 
