@@ -37,6 +37,7 @@ class AnnulloPresenter extends Backend
                 }
                 return false;
             });
+            $dataset_example = array_values($dataset_example); // Re-index the array to avoid errors index 0
         }
 
         $totalRecords = count($dataset_example);
