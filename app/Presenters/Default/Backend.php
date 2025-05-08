@@ -11,6 +11,7 @@ class Backend extends Nette\Application\UI\Presenter {
 
     public function __construct( ) { }
     
+    // Funcion to check if the user is logged in
     protected function startup(): void {
         parent::startup();
         $this->template->appName = $this->getParameter('appName');

@@ -56,6 +56,7 @@ class LoginPresenter extends Frontend
 		$this->template->title = 'Login';
 	}
 
+	
 	protected function createComponentLoginc(): Form {
 		$this->parameters = $this->getParameters();
 

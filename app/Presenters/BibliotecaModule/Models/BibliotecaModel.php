@@ -14,6 +14,7 @@ class BibliotecaModel {
         $this->database = $database;
     }
 
+    // Function to get all books from the database
     public function getAllBooks(): array {
         return $this->database->table('libri')->fetchAll();
     }
@@ -21,14 +22,14 @@ class BibliotecaModel {
     public function prenotaLibro(int $id_libro, $id_filiale, $id_utente): void
     {
     
-    // diminuisci disponibilità
+    // decrement the count of the book in the availability table
     $this->database->table('disponibilita')
         ->where('ref_libro', $id_libro)
         ->update(['count' => new Nette\Database\SqlLiteral('count - 1')]);
 
     
 
-    // aggiungi alla tabella storico_prenotazioni
+    // add a new record to the history table
     $this->database->table('storico_prenotazioni')
         ->insert([
             'id_libro' => $id_libro,
@@ -38,6 +39,7 @@ class BibliotecaModel {
         ]); 
     }
 
+    // funcion with the query to get the books
     public function getLibri($search_term = null, $records_per_page = 10, $start_from = 1): array {
         $query = "SELECT l.id, l.titolo, l.autore, l.anno, SUM(d.count) AS disponibilita, 
             CASE 

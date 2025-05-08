@@ -25,7 +25,7 @@ class AnnulloPresenter extends Backend
         $this->template->title = 'Biblioteca - Annulla Prenotazioni';
         $dataset_example = $this->annulloModel->getPrenotazioniAttive();
 
-        // Applichiamo il filtro solo se il parametro di ricerca è presente
+        // Application of the filter only if the search parameter is present
         if ($search !== null && trim($search) !== '') {
             $searchLower = mb_strtolower(trim($search));
 
@@ -52,6 +52,7 @@ class AnnulloPresenter extends Backend
         $this->template->search = $search;
     }
 
+    // Function to handle the cancellation of a reservation
     public function handleAnnullo(int $id_libro, int $id_biblioteca, int $ordine_id): void
     {
         $this->annulloModel->annullaPrenotazione($id_libro, $id_biblioteca, $ordine_id);

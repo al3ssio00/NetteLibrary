@@ -25,6 +25,7 @@ class BibliotecaPresenter extends Backend
     }
 
 
+    // Function to display the library books
     public function renderDefault(int $current = 1, int $limit = 10, ?string $search = null): void {
         $this->template->title = 'Biblioteca';
         $this->template->message = 'Biblioteca';
@@ -33,7 +34,7 @@ class BibliotecaPresenter extends Backend
         bdump($this->template->books);
         
 
-        // Applichiamo il filtro solo se il parametro di ricerca è presente
+        // Application of the filter only if the search parameter is present  
         if ($search !== null && trim($search) !== '') {
             $searchLower = mb_strtolower(trim($search));
 
@@ -62,14 +63,7 @@ class BibliotecaPresenter extends Backend
     }
 
 
-    public function renderPaginap(): void {
-        $this->template->title = 'Paginap';
-        $this->template->message = 'Biblioteca';
-        $r = $this->bibliotecaModel->getLibri();
-        bdump($r);
-        $this->template->data = $r;
-    }
-
+    // Function for reserving library books
     public function handlePrenota(int $id_libro, int $id_filiale): void
 {   
     $user_id = $this->getUser()->getId();
