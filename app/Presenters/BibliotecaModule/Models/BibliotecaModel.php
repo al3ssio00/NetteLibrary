@@ -26,9 +26,7 @@ class BibliotecaModel {
     $this->database->table('disponibilita')
         ->where('ref_libro', $id_libro)
         ->update(['count' => new Nette\Database\SqlLiteral('count - 1')]);
-
-    
-
+        
     // add a new record to the history table
     $this->database->table('storico_prenotazioni')
         ->insert([
@@ -39,9 +37,21 @@ class BibliotecaModel {
         ]); 
     }
 
+    public function aggiunta_libri(int $refB, int $refL): void
+{
+    $record = $this->database->table('disponibilita')
+        ->where('ref_libro', $refL)
+        ->where('ref_biblioteca', $refB)
+        ->update(['count' => new Nette\Database\SqlLiteral("count + 1")]);
+
+}
+
+
     // funcion with the query to get the books
     public function getLibri($search_term = null, $records_per_page = 10, $start_from = 1): array {
-        $query = "SELECT l.id, l.titolo, l.autore, l.anno, SUM(d.count) AS disponibilita, 
+        $query = "SELECT l.id, l.titolo, l.autore, l.anno, d.ref_biblioteca,
+            d.ref_libro, 
+            SUM(d.count) AS disponibilita,
             CASE 
               WHEN SUM(d.count) = 0 THEN NULL 
               ELSE GROUP_CONCAT(DISTINCT 
@@ -62,7 +72,7 @@ class BibliotecaModel {
                 OR l.anno LIKE '%$search_term%' ";
         }
 
-        $query .= " GROUP BY l.id
+        $query .= " GROUP BY l.id, d.ref_biblioteca, d.ref_libro
             LIMIT $start_from, $records_per_page";
         $result = $this->database->query($query);
         return $result->fetchAll();

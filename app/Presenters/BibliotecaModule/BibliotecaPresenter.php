@@ -75,6 +75,13 @@ class BibliotecaPresenter extends Backend
     $this->redirect('this'); // aggiorna la pagina dopo la prenotazione
 }
 
+    public function handleAggiunta(int $refL, int $refB): void
+    {
+        $this->bibliotecaModel->aggiunta_libri($refB, $refL);
+        $this->flashMessage('Libro aggiunto con successo!', 'success');
+        $this->redirect('this'); // aggiorna la pagina dopo l'aggiunta
+    }
+
 
 
 

@@ -39,6 +39,7 @@
                         <th>{$key}</th>
                     {/foreach}
                     <th>Azione</th>
+                    <th>Aggiungi</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,6 +74,12 @@
                             {else}
                                 <button class="btn btn-secondary btn-sm" disabled>Nessuna azione</button>
                             {/if}
+                        </td>
+                        <td>
+                            <a n:href="aggiunta! refB => $row['ref_biblioteca'],
+                            refL => $row['ref_libro']"class="btn btn-success btn-sm">
+                            +1
+                            </a>
                         </td>
                     </tr>
                 {/foreach}
