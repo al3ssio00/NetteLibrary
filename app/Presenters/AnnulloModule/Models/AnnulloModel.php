@@ -14,34 +14,7 @@ class AnnulloModel {
         $this->database = $database;
     }
 
-    /*public function getLibri($search_term = null, $records_per_page = 10, $start_from = 1): array {
-        $query = "SELECT l.id, l.titolo, l.autore, l.anno, SUM(d.count) AS disponibilita, 
-            CASE 
-              WHEN SUM(d.count) = 0 THEN NULL 
-              ELSE GROUP_CONCAT(DISTINCT 
-                CASE WHEN d.count > 0 THEN b.filiale END SEPARATOR ', ') 
-            END AS filiale,
-            CASE 
-              WHEN SUM(d.count) = 0 THEN NULL 
-              ELSE GROUP_CONCAT(DISTINCT 
-                  CASE WHEN d.count > 0 THEN b.id END SEPARATOR ', ') 
-            END AS id_filiali
-          FROM libri l
-            LEFT JOIN disponibilita d ON l.id = d.ref_libro
-            LEFT OUTER JOIN bibliotecaL b on d.ref_biblioteca = b.id";
-        
-        if ($search_term) {
-            $query .= " WHERE l.titolo LIKE '%$search_term%' 
-                OR l.autore LIKE '%$search_term%' 
-                OR l.anno LIKE '%$search_term%' ";
-        }
-
-        $query .= " GROUP BY l.id
-            LIMIT $start_from, $records_per_page";
-        $result = $this->database->query($query);
-        return $result->fetchAll();
-    }*/
-
+    // Function to cancel a reservation
     public function annullaPrenotazione(int $id_libro, int $id_biblioteca, $ordine_id): void
     {
     
@@ -59,11 +32,23 @@ class AnnulloModel {
             ]);
     }
 
+    public function aggiunta_libri($refL, $refB): void
+    { 
+            $this->database->table('disponibilita')
+            ->where('ref_libro', $refL)
+            ->where('ref_biblioteca', $refB)
+            ->update(['count' => new Nette\Database\SqlLiteral("count + 1")]);
+    
+    }
+
+    // Function to get all active reservations for today
     public function getPrenotazioniAttive()
 {
     $query = "SELECT 
         s.id AS ordine_id, 
-        s.id_libro, 
+        s.id_libro,
+        d.ref_biblioteca,
+        d.ref_libro, 
         s.id_filiale, 
         l.titolo, 
         l.autore, 
@@ -75,6 +60,8 @@ class AnnulloModel {
     JOIN libri l ON s.id_libro = l.id
     JOIN bibliotecaL b ON s.id_filiale = b.id
     JOIN utenti u ON s.id_utente = u.id
+    JOIN disponibilita d ON d.ref_libro 
+        AND d.ref_biblioteca
     WHERE DATE(s.data_ora) = CURDATE()
     ORDER BY s.data_ora DESC
    ";

@@ -37,13 +37,14 @@ class AnnulloPresenter extends Backend
                 }
                 return false;
             });
+
             $dataset_example = array_values($dataset_example); // Re-index the array to avoid errors index 0
         }
 
         $totalRecords = count($dataset_example);
         $offset = ($current - 1) * $limit;
         $pageData = array_slice($dataset_example, $offset, $limit);
-        $columns = ($totalRecords>0) ? array_keys((array)$dataset_example[1] ?? []) : [];
+        $columns = ($totalRecords>0) ? array_keys((array)$dataset_example[0] ?? []) : [];
 
         $this->template->records = $pageData;
         $this->template->columns = $columns;
@@ -60,4 +61,16 @@ class AnnulloPresenter extends Backend
         $this->flashMessage("Prenotazione annullata con successo!", 'success');
         $this->redirect('this');
     }
+
+
+    public function handleAggiunta($refB, $refL): void
+    {
+        $this->annulloModel->aggiunta_libri($refB, $refL);
+        $this->flashMessage('Libro aggiunto con successo!', 'success');
+        $this->redirect('this'); // aggiorna la pagina dopo l'aggiunta
+
+
+    }
+
+
 }
