@@ -28,21 +28,6 @@ class LoginPresenter extends Frontend
 		parent::startup();
 	}
 
-	/*public function renderDefault(): void {
-		$this->template->title = 'Biblioteca';
-		$this->template->message = 'Biblioteca';
-		$this->template->books = $this->model->getLibri();
-		bdump($this->template->books);
-	}
-
-	public function renderPaginap(): void {
-		$this->template->title = 'Paginap';
-		$this->template->message = 'Biblioteca';
-		$r = $this->model->getLibri();
-		bdump($r);
-		$this->template->data = $r;
-	}*/
-
 	public function renderDefault(): void {
 		$this->redirect('Login:default');
 

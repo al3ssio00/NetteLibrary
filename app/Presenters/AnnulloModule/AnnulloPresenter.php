@@ -63,14 +63,29 @@ class AnnulloPresenter extends Backend
     }
 
 
-    public function handleAggiunta($refB, $refL): void
-    {
-        $this->annulloModel->aggiunta_libri($refB, $refL);
-        $this->flashMessage('Libro aggiunto con successo!', 'success');
-        $this->redirect('this'); // aggiorna la pagina dopo l'aggiunta
+    public function handleAggiunta(int $refL): void
+{
+    $disponibilita = $this->annulloModel->disponibilitaLibro($refL);
 
+    if ($disponibilita) {
+        $refB = $disponibilita->ref_biblioteca;
 
+        $success = $this->annulloModel->aggiunta_libri($refL, $refB);
+
+        if ($success) {
+            $this->flashMessage('Libro aggiunto con successo!', 'success');
+        } else {
+            $this->flashMessage('Errore: disponibilità non trovata per il libro selezionato.', 'error');
+        }
+
+    } else {
+        $this->flashMessage('Errore: disponibilità non trovata per questo libro.', 'error');
     }
+
+    $this->redirect('this');
+}
+
+    
 
 
 }

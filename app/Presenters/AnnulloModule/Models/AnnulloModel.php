@@ -32,14 +32,35 @@ class AnnulloModel {
             ]);
     }
 
-    public function aggiunta_libri($refL, $refB): void
-    { 
-            $this->database->table('disponibilita')
+    public function disponibilitaLibro(int $refL)
+    {
+        return $this->database->table('disponibilita')
+            ->where('ref_libro', $refL)
+            ->fetch(); // ritorna la prima riga trovata
+    }
+
+    public function aggiunta_libri(int $refL, int $refB): bool
+{
+    $disponibilita = $this->database->table('disponibilita')
+        ->where('ref_libro', $refL)
+        ->where('ref_biblioteca', $refB)
+        ->fetch();
+
+    if ($disponibilita) {
+        $this->database->table('disponibilita')
             ->where('ref_libro', $refL)
             ->where('ref_biblioteca', $refB)
-            ->update(['count' => new Nette\Database\SqlLiteral("count + 1")]);
-    
+            ->update([
+                'count' => new \Nette\Database\SqlLiteral('count + 1')
+            ]);
+        return true;
     }
+
+    // Nessuna riga trovata → errore
+    return false;
+}
+
+    
 
     // Function to get all active reservations for today
     public function getPrenotazioniAttive()
@@ -47,8 +68,6 @@ class AnnulloModel {
     $query = "SELECT 
         s.id AS ordine_id, 
         s.id_libro,
-        d.ref_biblioteca,
-        d.ref_libro, 
         s.id_filiale, 
         l.titolo, 
         l.autore, 
@@ -60,8 +79,6 @@ class AnnulloModel {
     JOIN libri l ON s.id_libro = l.id
     JOIN bibliotecaL b ON s.id_filiale = b.id
     JOIN utenti u ON s.id_utente = u.id
-    JOIN disponibilita d ON d.ref_libro 
-        AND d.ref_biblioteca
     WHERE DATE(s.data_ora) = CURDATE()
     ORDER BY s.data_ora DESC
    ";
